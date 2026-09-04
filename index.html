@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Fhntasy</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Geist+Pixel&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+        /* --- VARIABEL WARNA & FONT --- */
+        :root {
+            --bg-color-1: #000000; 
+            --bg-color-2: #0a0a0a;
+            --text-color: #ffffff;
+            --accent-color: #838bc5;
+            --font-main: 'Inter', sans-serif;
+            --font-pixel: 'Geist Pixel', cursive;
+        }
+
+        /* --- RESET & CUSTOM SCROLLBAR --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color-1);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #222;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
+        }
+
+        body {
+            background-color: var(--bg-color-1);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            font-weight: 400; 
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        ::selection {
+            background-color: var(--accent-color);
+            color: var(--bg-color-1);
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            mix-blend-mode: difference;
+        }
+
+        .cursor.hovered {
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-color);
+            border-color: transparent;
+        }
+
+        /* --- NAVIGASI --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 4rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            mix-blend-mode: difference;
+        }
+
+        .logo {
+            font-family: var(--font-pixel);
+            font-size: 1.5rem;
+            color: var(--text-color);
+            text-decoration: none;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .beta-tag {
+            font-size: 0.6rem;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 0.1rem 0.4rem;
+            border-radius: 10px;
+            letter-spacing: 1px;
+        }
+
+        .status-pill {
+            font-family: var(--font-main);
+            font-size: 0.75rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ccc;
+            border: 1px solid #444;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: normal;
+            text-transform: none;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #ff4d4d;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-family: var(--font-main);
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            transition: color 0.3s, background-color 0.3s;
+            text-transform: uppercase; 
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-links a.contact-btn {
+            background-color: var(--accent-color);
+            color: #000;
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+        }
+        
+        .nav-links a.contact-btn:hover {
+            background-color: #ffffff;
+            color: #000;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative; 
+            background-color: var(--bg-color-1);
+        }
+
+        .hero-main {
+            flex-grow: 1;
+            display: flex;
+            align-items: center; 
+            justify-content: center; 
+            padding-left: 0; 
+            position: relative; 
+        }
+
+        .hero-text-wrapper {
+            position: relative;
+            z-index: 10;
+            text-align: center; 
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 400; 
+            line-height: 1.1;
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+        .hero h1 span.pixel-text {
+            font-family: var(--font-pixel);
+            color: var(--accent-color);
+        }
+
+        /* --- SKILL PILLS (DRAGGABLE) --- */
+        .hero-pills {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; 
+            z-index: 15;
+        }
+
+        .pill-container {
+            position: absolute;
+            pointer-events: auto;
+            cursor: grab;
+        }
+        
+        .pill-container:active {
+            cursor: grabbing;
+        }
+
+        .pill {
+            padding: 0.7rem 1.4rem;
+            border: 1px solid var(--pill-color);
+            border-radius: 50px;
+            font-size: 0.95rem;
+            color: var(--pill-color);
+            backdrop-filter: blur(8px);
+            background: rgba(10, 10, 10, 0.6);
+            transition: background-color 0.3s, color 0.3s;
+            user-select: none;
+        }
+
+        .pill:hover {
+            background-color: var(--pill-color);
+            color: #000; 
+        }
+
+        .p1 { top: 25%; left: 15%; --pill-color: #838bc5; } 
+        .p2 { top: 20%; right: 20%; --pill-color: #c583a5; } 
+        .p3 { top: 65%; left: 20%; --pill-color: #83c59a; } 
+        .p4 { top: 55%; right: 15%; --pill-color: #c5b883; } 
+        .p5 { bottom: 20%; left: 35%; --pill-color: #83acc5; } 
+        .p6 { top: 40%; left: 5%; --pill-color: #c59283; } 
+        .p7 { top: 80%; left: 60%; --pill-color: #a483c5; } 
+        .p8 { top: 75%; right: 5%; --pill-color: #83c5c1; } 
+
+        /* --- HERO BOTTOM AREA --- */
+        .hero-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            pointer-events: none; 
+        }
+
+        .hero-sub-left {
+            position: absolute;
+            left: 4rem;
+            bottom: 2rem;
+            width: 30%;
+            font-size: 1rem; 
+            color: #ffffff; 
+            line-height: 1.5;
+            text-align: left;
+            pointer-events: auto;
+        }
+
+        .hero-sub-right {
+            position: absolute;
+            right: 4rem;
+            bottom: 2rem;
+            font-size: 1rem;
+            color: #ffffff; 
+            font-family: var(--font-pixel);
+            text-transform: uppercase;
+            pointer-events: auto;
+            text-align: right;
+        }
+
+        .peeking-wrapper {
+            position: absolute;
+            left: 50%; 
+            transform: translateX(-50%);
+            bottom: 0; 
+            z-index: 5;
+            pointer-events: auto;
+        }
+
+        .peeking-char {
+            width: 250px; 
+            height: 160px;
+            background-color: transparent;
+            border-bottom: none; 
+            border-radius: 125px 125px 0 0; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center top;
+            transition: all 0.3s ease;
+        }
+
+        /* --- PROFILE SECTION --- */
+        .profile {
+            padding: 8rem 4rem;
+            background-color: var(--bg-color-2); 
+            position: relative;
+            z-index: 10;
+            border-top: 1px solid #1a1a1a;
+            overflow: hidden; 
+        }
+
+        .profile-top {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            min-height: 70vh;
+            margin-bottom: 8rem;
+        }
+
+        .profile-bg-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(4rem, 12vw, 15rem);
+            font-weight: 800;
+            color: var(--accent-color);
+            opacity: 0.1;
+            white-space: nowrap;
+            z-index: 0;
+            text-transform: uppercase;
+            pointer-events: none;
+            letter-spacing: -2px;
+        }
+
+        .placeholder-photo {
+            width: clamp(280px, 25vw, 350px);
+            aspect-ratio: 3/4;
+            background-color: #111;
+            border-radius: 20px;
+            flex-shrink: 0;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            z-index: 2; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            transition: transform 0.4s ease;
+        }
+        
+        .placeholder-photo:hover {
+            transform: scale(1.02);
+        }
+
+        .profile-description {
+            position: absolute;
+            bottom: -3rem; 
+            right: 15%; 
+            max-width: 500px;
+            text-align: right;
+            background: linear-gradient(135deg, rgba(10,10,10,0.85), rgba(0,0,0,0.95));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            z-index: 3; 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+        }
+
+        .profile-description p {
+            font-size: 1.35rem;
+            color: #e0e0e0;
+            line-height: 1.7;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: space-between;
+            padding: 4rem 0;
+            border-top: 1px solid #222;
+            border-bottom: 1px solid #222;
+            margin-bottom: 6rem;
+        }
+
+        .stat-item h3 {
+            font-size: clamp(3rem, 6vw, 6rem);
+            font-weight: 400;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .stat-item p {
+            font-family: var(--font-pixel);
+            color: var(--accent-color);
+            font-size: 1rem;
+        }
+
+        /* Software Icons Update */
+        .profile-software { margin-bottom: 6rem; }
+        .section-label { font-family: var(--font-pixel); color: var(--accent-color); font-size: 1.2rem; margin-bottom: 2rem; display: block; }
+        .software-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
+        
+        .software-pill { 
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.6rem 1.2rem 0.6rem 0.6rem; 
+            background-color: #111; 
+            border-radius: 50px; 
+            font-size: 1rem; 
+            color: #ccc; 
+            transition: all 0.3s ease; 
+        }
+        
+        .software-icon {
+            width: 28px;
+            height: 28px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            background-color: #222;
+        }
+
+        .software-pill:hover { 
+            color: var(--text-color); 
+            background-color: #222; 
+        }
+
+
+        /* History Update */
+        .history-container { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; }
+        
+        .history-item { 
+            display: flex; 
+            align-items: center; /* Tengah vertikal dengan icon */
+            gap: 1.5rem; 
+            margin-bottom: 1rem; 
+            padding: 1.5rem; 
+            border-bottom: 1px solid #222;
+            border-radius: 1rem;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
+            border: 1px solid transparent;
+        }
+
+        .history-item:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+            border-color: #333;
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .placeholder-logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 20%; 
+            background-color: #111;
+            flex-shrink: 0;
+            transition: transform 0.4s;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .history-item:hover .placeholder-logo {
+            transform: scale(1.1);
+        }
+
+        .history-details h4 { font-size: 1.5rem; font-weight: 400; margin-bottom: 0.3rem; color: #eee; transition: color 0.3s; }
+        .history-item:hover .history-details h4 { color: #fff; }
+        
+        .history-year { font-family: var(--font-pixel); color: #777; font-size: 0.85rem; display: block; margin-bottom: 0.5rem; transition: color 0.3s;}
+        .history-item:hover .history-year { color: var(--accent-color); }
+        
+        .history-details p { color: #888; font-size: 1rem; line-height: 1.5; }
+
+
+        /* --- WORKS SECTION (BENTO SCROLL) --- */
+        .works-scroll-container {
+            height: 300vh; 
+            position: relative;
+            background-color: var(--bg-color-1); 
+        }
+
+        .works-sticky {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+            background-color: var(--bg-color-1);
+        }
+
+        .section-title {
+            font-family: var(--font-pixel);
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            margin-left: 4rem;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .bento-track {
+            display: flex;
+            gap: 1.5rem;
+            padding: 0 4rem;
+            width: max-content;
+            will-change: transform; 
+            align-items: center; 
+        }
+
+        .bento-grid-wrapper {
+            display: grid;
+            grid-template-rows: repeat(2, 35vh);
+            grid-auto-columns: 25vw;
+            grid-auto-flow: column;
+            gap: 1.5rem;
+        }
+
+        .bento-item {
+            background: #111;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bento-large { grid-row: span 2; grid-column: span 2; }
+        .bento-tall  { grid-row: span 2; grid-column: span 1; }
+        .bento-wide  { grid-row: span 1; grid-column: span 2; }
+        .bento-small { grid-row: span 1; grid-column: span 1; }
+
+        .carousel-wrapper {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+        }
+
+        .carousel-wrapper img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            filter: grayscale(100%);
+            transition: transform 0.5s, filter 0.5s;
+        }
+
+        .carousel-wrapper img:first-child {
+            opacity: 0.5;
+        }
+
+        @keyframes fadeSlide1 { 0%, 33.33% { opacity: 1; } 41.66%, 91.66% { opacity: 0; } 100% { opacity: 1; } }
+        @keyframes fadeSlide2 { 0%, 25% { opacity: 0; } 33.33%, 66.66% { opacity: 1; } 75%, 100% { opacity: 0; } }
+        @keyframes fadeSlide3 { 0%, 58.33% { opacity: 0; } 66.66%, 100% { opacity: 1; } }
+
+        .bento-item:hover .carousel-wrapper img {
+            transform: scale(1.03);
+            filter: grayscale(0%);
+        }
+
+        .bento-item:hover .carousel-wrapper img:nth-child(1) { animation: fadeSlide1 9s infinite; }
+        .bento-item:hover .carousel-wrapper img:nth-child(2) { animation: fadeSlide2 9s infinite; }
+        .bento-item:hover .carousel-wrapper img:nth-child(3) { animation: fadeSlide3 9s infinite; }
+
+        .bento-gradient {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70%;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0) 100%);
+            z-index: 5;
+            opacity: 0.6;
+            transition: opacity 0.4s;
+        }
+        .bento-item:hover .bento-gradient { opacity: 0.9; }
+
+        .bento-info { position: absolute; bottom: 2rem; left: 2rem; z-index: 10; opacity: 0; transform: translateY(15px); transition: opacity 0.4s, transform 0.4s; }
+        .bento-item:hover .bento-info { opacity: 1; transform: translateY(0); }
+        .bento-info h3 { font-family: var(--font-main); font-size: 1.5rem; font-weight: 400; margin-bottom: 0.25rem; color: #fff; }
+        .bento-info p { font-family: var(--font-pixel); color: var(--accent-color); font-size: 0.8rem; }
+
+        .bento-end-card {
+            width: 30vw; 
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .bento-end-card h3 { font-size: 2rem; font-weight: 400; margin-bottom: 1rem; }
+        .bento-end-card p { color: #aaa; margin-bottom: 2rem; }
+
+        .btn-view-all {
+            padding: 1rem 2rem;
+            background-color: var(--text-color);
+            color: var(--bg-color-1);
+            border: none;
+            border-radius: 50px;
+            font-family: var(--font-main);
+            font-size: 1rem;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .btn-view-all:hover {
+            background-color: var(--accent-color);
+            color: #000;
+        }
+
+        /* --- FOOTER / CONTACT --- */
+        footer {
+            padding: 8rem 4rem 4rem 4rem;
+            text-align: center;
+            background-color: var(--bg-color-2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            bottom: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to top, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%);
+            -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        footer h2 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            max-width: 900px;
+        }
+
+        .footer-sub {
+            color: #888;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .social-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 1px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background-color: var(--bg-color-1); 
+        }
+
+        .social-btn:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: #000;
+        }
+
+        .email-link {
+            font-family: var(--font-pixel);
+            color: var(--accent-color); 
+            font-size: clamp(1.5rem, 4vw, 4rem);
+            text-decoration: underline;
+            text-decoration-color: var(--accent-color);
+            text-underline-offset: 8px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+
+        .email-link::after {
+            content: '↗';
+            font-family: var(--font-main);
+            font-size: clamp(1.2rem, 3vw, 3rem);
+        }
+
+        .email-link:hover {
+            opacity: 0.8;
+        }
+
+        /* --- ANIMASI REVEAL --- */
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- RESPONSIVE UNTUK HP --- */
+        @media (max-width: 768px) {
+            nav { padding: 1.5rem 2rem; flex-direction: column; align-items: center; gap: 1rem; }
+            .logo { justify-content: center; }
+            
+            .hero-main { padding-left: 0; text-align: center; justify-content: center; }
+            .hero-text-wrapper { text-align: center; }
+            
+            .hero-bottom { position: relative; height: auto; display: flex; flex-direction: column; padding: 2rem; gap: 2rem; }
+            .hero-sub-left { position: relative; left: 0; bottom: 0; width: 100%; text-align: center; margin-bottom: 1rem; }
+            .hero-sub-right { position: relative; right: 0; transform: none; bottom: 0; text-align: center; margin-bottom: 1rem; }
+            .peeking-wrapper { position: relative; left: 50%; transform: translateX(-50%); display: flex; justify-content: center; width: 100%; margin-top: 2rem; }
+            .peeking-char { width: 180px; height: 120px; }
+            
+            .profile { padding: 4rem 2rem; }
+            .profile-top { flex-direction: column; min-height: auto; margin-bottom: 4rem; }
+            .profile-bg-text { font-size: clamp(3rem, 15vw, 5rem); top: 15%; }
+            .profile-description { position: relative; right: 0; bottom: 0; width: 100%; text-align: center; padding: 1.5rem; margin-top: -2rem; }
+            .profile-stats { flex-direction: column; gap: 3rem; text-align: center; }
+            .history-container { grid-template-columns: 1fr; gap: 4rem; }
+            .history-item:hover { transform: none; } 
+
+            .works-scroll-container { height: auto; padding: 4rem 0; }
+            .works-sticky { position: relative; height: auto; overflow: visible; }
+            .section-title { margin-left: 2rem; }
+            .bento-track { display: flex; flex-direction: column; width: 100%; padding: 0 2rem; transform: none !important; }
+            .bento-grid-wrapper { display: flex; flex-direction: column; gap: 1.5rem; }
+            .bento-item { height: 300px; }
+            
+            .bento-end-card { width: 100%; padding: 2rem 0; align-items: center; text-align: center; }
+
+            .cursor { display: none; }
+            * { cursor: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor" id="cursor"></div>
+
+    <nav>
+        <a href="#" class="logo hoverable">
+            Fhntasy. 
+            <span class="beta-tag">BETA</span>
+            <div class="status-pill hoverable">
+                <span class="status-dot"></span> Unavailable • GMT+7
+            </div>
+        </a>
+        <div class="nav-links">
+            <a href="#hero" class="hoverable">HOME</a>
+            <a href="#works" class="hoverable">PORTFOLIO</a>
+            <a href="#tnc" class="hoverable">TOC</a>
+            <a href="#contact" class="hoverable contact-btn">CONTACT</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="hero">
+        <div class="hero-main">
+            <div class="hero-pills">
+                <div class="pill-container p1"><div class="pill hoverable">Graphic Design</div></div>
+                <div class="pill-container p2"><div class="pill hoverable">UI/UX Design</div></div>
+                <div class="pill-container p3"><div class="pill hoverable">Branding</div></div>
+                <div class="pill-container p4"><div class="pill hoverable">Logo Design</div></div>
+                <div class="pill-container p5"><div class="pill hoverable">Motion Design</div></div>
+                <div class="pill-container p6"><div class="pill hoverable">Digital Illustration</div></div>
+                <div class="pill-container p7"><div class="pill hoverable">Video Editing</div></div>
+                <div class="pill-container p8"><div class="pill hoverable">& many more!</div></div>
+            </div>
+
+            <div class="hero-text-wrapper reveal">
+                <h1>
+                    Spark you <span class="italic">ideas</span>,<br> with 
+                    <span class="pixel-text">Fhntasy!</span>
+                </h1>
+            </div>
+        </div>
+        
+        <div class="hero-bottom">
+            <div class="hero-sub-left">
+                A graphic designer that.. just.. design, yeah, and please just hire me (｡T ω T｡).
+            </div>
+
+            <div class="peeking-wrapper">
+                <div class="peeking-char hoverable" style="background-image: url('https://images.unsplash.com/photo-1601614051000-d81a95e0c06a?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&h=160&q=80');"></div>
+            </div>
+
+            <div class="hero-sub-right">
+                Portfolio // 2026.
+            </div>
+        </div>
+    </section>
+
+    <section class="profile" id="profile">
+        <div class="profile-top reveal">
+            <p class="profile-bg-text">Get to know me!</p>
+            
+            <div class="placeholder-photo hoverable" style="background-image: url('Desain tanpa judul (24).png');"></div>
+            
+            <div class="profile-description hoverable">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, in expedita. Dolor commodi aliquam, repudiandae cum natus incidunt doloribus maiores.</p>
+            </div>
+        </div>
+
+        <div class="profile-stats reveal">
+            <div class="stat-item hoverable">
+                <h3>2+</h3>
+                <p>Years</p>
+            </div>
+            <div class="stat-item hoverable">
+                <h3>100+</h3>
+                <p>Clients</p>
+            </div>
+            <div class="stat-item hoverable">
+                <h3>200+</h3>
+                <p>Projects</p>
+            </div>
+        </div>
+
+        <div class="profile-software reveal">
+            <span class="section-label">Software that I'm using right now //</span>
+            <div class="software-grid">
+                <div class="software-pill hoverable">
+                    <div class="software-icon" style="background-image: url('https://images.unsplash.com/photo-1626785774573-4b799315345d?ixlib=rb-4.0.3&auto=format&fit=crop&w=60&h=60&q=80');"></div>
+                    Illustrator
+                </div>
+                <div class="software-pill hoverable">
+                    <div class="software-icon" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=60&h=60&q=80');"></div>
+                    Photoshop
+                </div>
+                <div class="software-pill hoverable">
+                    <div class="software-icon" style="background-image: url('https://images.unsplash.com/photo-1558655146-d09347e92766?ixlib=rb-4.0.3&auto=format&fit=crop&w=60&h=60&q=80');"></div>
+                    Figma
+                </div>
+                <div class="software-pill hoverable">
+                    <div class="software-icon" style="background-image: url('https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=60&h=60&q=80');"></div>
+                    Affinity
+                </div>
+                                <div class="software-pill hoverable">
+                    <div class="software-icon" style="background-image: url('https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=60&h=60&q=80');"></div>
+                    Canva
+                </div>
+                                <div class="software-pill hoverable">
+                    <div class="software-icon" style="background-image: url('https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=60&h=60&q=80');"></div>
+                    Premiere Pro
+                </div>
+                                <div class="software-pill hoverable">
+                    <div class="software-icon" style="background-image: url('https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=60&h=60&q=80');"></div>
+                    After Effects
+                </div>
+            </div>
+        </div>
+
+        <div class="history-container reveal">
+            <div class="history-column">
+                <span class="section-label">Education //</span>
+                
+                <div class="history-item hoverable">
+                    <div class="placeholder-logo" style="background-image: url('unesa.jpg');"></div>
+                    <div class="history-details">
+                        <h4>Universitas Negeri Surabaya</h4>
+                        <span class="history-year">2026 - NOW</span>
+                        <p>Graphic Design</p>
+                    </div>
+                </div>
+                <div class="history-item hoverable">
+                    <div class="placeholder-logo" style="background-image: url('https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=70&h=70&q=80');"></div>
+                    <div class="history-details">
+                        <h4>Vocational High School</h4>
+                        <span class="history-year">2023 - 2026</span>
+                        <p>Visual Communication Design</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="history-column">
+                <span class="section-label">Experience //</span>
+                
+                <div class="history-item hoverable">
+                    <div class="placeholder-logo" style="background-image: url('eter.png');"></div>
+                    <div class="history-details">
+                        <h4>Eternoia</h4>
+                        <span class="history-year">2026 - NOW</span>
+                        <p>As a Graphic Designer (Freelance)</p>
+                    </div>
+                </div>
+                <div class="history-item hoverable">
+                    <div class="placeholder-logo" style="background-image: url('virtu.png');"></div>
+                    <div class="history-details">
+                        <h4>Virtunix</h4>
+                        <span class="history-year">2025-2026</span>
+                        <p>As a Graphic Designer (Full Time)</p>
+                    </div>
+                </div>
+                <div class="history-item hoverable">
+                    <div class="placeholder-logo" style="background-image: url('https://images.unsplash.com/photo-1560179707-f14e90ef3623?ixlib=rb-4.0.3&auto=format&fit=crop&w=70&h=70&q=80');"></div>
+                    <div class="history-details">
+                        <h4>Media Creative Service by SMK N 1 Gondang</h4>
+                        <span class="history-year">2020 - NOW</span>
+                        <p>As a Head of Creative Department.</p>
+                    </div>
+                </div>
+                <div class="history-item hoverable">
+                    <div class="placeholder-logo" style="background-image: url('https://images.unsplash.com/photo-1560179707-f14e90ef3623?ixlib=rb-4.0.3&auto=format&fit=crop&w=70&h=70&q=80');"></div>
+                    <div class="history-details">
+                        <h4>Freelancer</h4>
+                        <span class="history-year">2020 - NOW</span>
+                        <p>Lorem ipsum.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="works-scroll-container" id="works">
+        <div class="works-sticky">
+            <h2 class="section-title reveal">Featured Works //</h2>
+            
+            <div class="bento-track hoverable" id="bentoTrack">
+                
+                <div class="bento-grid-wrapper">
+                    <div class="bento-item bento-large">
+                        <div class="carousel-wrapper">
+                            <img src="https://images.unsplash.com/photo-1600132806370-bf17e65e942f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Slide 1">
+                            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Slide 2">
+                            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Slide 3">
+                        </div>
+                        <div class="bento-gradient"></div> 
+                        <div class="bento-info">
+                            <h3>MetaVora</h3>
+                            <p>Visual Identity & Branding</p>
+                        </div>
+                    </div>
+
+                    <div class="bento-item bento-small">
+                        <div class="carousel-wrapper">
+                            <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Slide 1">
+                            <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Slide 2">
+                        </div>
+                        <div class="bento-gradient"></div>
+                        <div class="bento-info">
+                            <h3>Lorem Ipsum</h3>
+                            <p>Editorial</p>
+                        </div>
+                    </div>
+
+                    <div class="bento-item bento-small">
+                        <div class="carousel-wrapper">
+                            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Slide 1">
+                            <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Slide 2">
+                        </div>
+                        <div class="bento-gradient"></div>
+                        <div class="bento-info">
+                            <h3>Lorem Ipsum</h3>
+                            <p>Tipografi</p>
+                        </div>
+                    </div>
+
+                    <div class="bento-item bento-tall">
+                        <div class="carousel-wrapper">
+                            <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Slide 1">
+                            <img src="https://images.unsplash.com/photo-1600132806370-bf17e65e942f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Slide 2">
+                        </div>
+                        <div class="bento-gradient"></div>
+                        <div class="bento-info">
+                            <h3>Lorem Ipsum</h3>
+                            <p>UI/UX Design</p>
+                        </div>
+                    </div>
+
+                    <div class="bento-item bento-wide">
+                        <div class="carousel-wrapper">
+                            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Slide 1">
+                            <img src="https://images.unsplash.com/photo-1541462608143-67571c6738dd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Slide 2">
+                        </div>
+                        <div class="bento-gradient"></div>
+                        <div class="bento-info">
+                            <h3>Lorem Ipsum</h3>
+                            <p>3D Render</p>
+                        </div>
+                    </div>
+                    
+                     <div class="bento-item bento-small">
+                        <div class="carousel-wrapper">
+                            <img src="https://images.unsplash.com/photo-1541462608143-67571c6738dd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Slide 1">
+                            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Slide 2">
+                        </div>
+                        <div class="bento-gradient"></div>
+                        <div class="bento-info">
+                            <h3>Lorem Ipsum</h3>
+                            <p>Branding</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bento-end-card hoverable">
+                    <h3>Want to see more?</h3>
+                    <p>Click the button below to view my project archive!</p>
+                    <button class="btn-view-all hoverable">View All Projects</button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <h2 class="reveal">Let's work together, just two of us? (,,>﹏<,,)👉👈</h2>
+        <p class="footer-sub reveal">Let's discuss your next project. I'm always open to hearing your ideas.</p>
+        
+        <div class="social-links reveal">
+            <a href="#" class="social-btn hoverable">IG</a>
+            <a href="#" class="social-btn hoverable">BE</a>
+            <a href="#" class="social-btn hoverable">DR</a>
+            <a href="#" class="social-btn hoverable">LI</a>
+        </div>
+
+        <a href="mailto:eternalfhntasy@gmail.com" class="email-link hoverable">eternalfhntasy@gmail.com</a>
+    </footer>
+
+    <script>
+        const cursor = document.getElementById('cursor');
+        const hoverables = document.querySelectorAll('.hoverable');
+
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        hoverables.forEach(elem => {
+            elem.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            elem.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
+
+        const pills = document.querySelectorAll('.pill-container');
+        let activePill = null;
+        let startX = 0, startY = 0, initialX = 0, initialY = 0;
+
+        pills.forEach(pill => {
+            pill.addEventListener('mousedown', e => {
+                activePill = pill;
+                startX = e.clientX;
+                startY = e.clientY;
+                initialX = pill.offsetLeft;
+                initialY = pill.offsetTop;
+                pill.style.zIndex = '100';
+            });
+        });
+
+        document.addEventListener('mousemove', e => {
+            if (!activePill) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            activePill.style.left = initialX + dx + 'px';
+            activePill.style.top = initialY + dy + 'px';
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (activePill) {
+                activePill.style.zIndex = '15';
+                activePill = null;
+            }
+        });
+
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); 
+
+        window.addEventListener('scroll', () => {
+            if (window.innerWidth > 768) {
+                const container = document.getElementById('works');
+                const track = document.getElementById('bentoTrack');
+                
+                const containerTop = container.offsetTop;
+                const containerHeight = container.offsetHeight;
+                const windowHeight = window.innerHeight;
+                const scrollY = window.scrollY;
+
+                if (scrollY >= containerTop && scrollY <= containerTop + containerHeight - windowHeight) {
+                    const progress = (scrollY - containerTop) / (containerHeight - windowHeight);
+                    const maxTranslate = track.scrollWidth - window.innerWidth + 64; 
+                    track.style.transform = `translateX(-${progress * maxTranslate}px)`;
+                } 
+                else if (scrollY < containerTop) {
+                    track.style.transform = `translateX(0)`;
+                } 
+                else {
+                    const maxTranslate = track.scrollWidth - window.innerWidth + 64;
+                    track.style.transform = `translateX(-${maxTranslate}px)`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
